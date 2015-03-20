@@ -1,0 +1,121 @@
+#include<bits/stdc++.h>
+#define lld long long
+#define MAX 505
+
+using namespace std;
+struct node
+{
+    int v;
+    lld cost;
+    node(int m,lld c)
+    {
+        v = m;
+        cost = c;
+    }
+};
+
+vector<vector<node> > graph,tgraph;
+bool visited[MAX];
+lld dps[MAX],dpe[MAX];
+int n,m;
+
+struct compare
+{
+    bool operator()(node &a,node &b)
+    {
+        return (a.cost>b.cost)?true:false;
+    }
+};
+
+void dijikstra(int s,int e,vector<vector<node> > graph,lld dp[])
+{
+    priority_queue<node,vector<node>,compare> pq;
+    pq.push(node(s,0));
+
+    for(int i=0;i<MAX;i++)
+        dp[i] = INT_MAX;
+
+    dp[s] = 0;
+    while(!pq.empty())
+    {
+        node top = pq.top();
+        pq.pop();
+
+        for(int k=0;k<graph[top.v].size();k++)
+        {
+            int nv = graph[top.v][k].v;
+            if(graph[top.v][k].cost!=INT_MAX)
+            {
+                if(dp[nv]>dp[top.v]+graph[top.v][k].cost)
+                {
+                    dp[nv] = dp[top.v]+graph[top.v][k].cost;
+                    pq.push(node(nv,dp[nv]));
+                }
+            }
+        }
+    }
+}
+
+
+lld init(int s,int e)
+{
+    memset(visited,0,sizeof(visited));
+    dijikstra(s,e,graph,dps);
+    dijikstra(e,s,tgraph,dpe);
+    int shortestPath = dps[e];
+
+    for(int i=0;i<n;i++)
+    {
+    	for(int j=0;j<graph[i].size();j++)
+    	{
+    	    int v = graph[i][j].v;
+    	    lld temp =(dps[i] + dpe[v] + graph[i][j].cost);
+    	    //cout<<i<<" "<<v<<" "<<temp<<endl;
+    	    if(temp==shortestPath)
+    	    {
+    	       graph[i][j].cost = INT_MAX;
+    	    }
+    	}
+    }
+
+    dijikstra(s,e,graph,dps);
+    if(dps[e]==INT_MAX)
+        return -1;
+    else
+        return dps[e];
+}
+
+int main()
+{
+
+    while(true)
+    {
+        scanf("%d%d",&n,&m);
+        if(n==0&&m==0)
+            break;
+        int start,end;
+        scanf("%d%d",&start,&end);
+
+        int s,e,w;
+
+        vector<node> temp;
+        graph.clear();
+        tgraph.clear();
+
+        for(int i=0;i<n;i++)
+        {
+            graph.push_back(temp);
+            tgraph.push_back(temp);
+        }
+
+        while(m--)
+        {
+            scanf("%d%d%d",&s,&e,&w);
+            graph[s].push_back(node(e,w));
+            tgraph[e].push_back(node(s,w));
+        }
+        printf("%lld\n",init(start,end));
+    }
+    return 0;
+
+}
