@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+namespace dijikstra
+{
+    typedef pair<int,int> p;
+
+    struct node
+    {
+        int steps;
+        int i;
+        node(int x,int y)
+        {
+            i = x;
+            steps = y;
+        }
+    };
+    struct compare
+    {
+        bool operator()(node a,node b)
+        {
+            return a.steps>b.steps;
+        }
+    };
+
+    int *dp;
+    void init(int vertices)
+    {
+        dp = new int[vertices+1];
+        for(int i=0;i<vertices;i++)
+            dp[i] = INT_MAX;
+    }
+
+    void destroy()
+    {
+        delete(dp);
+    }
+    int *shortestPath(int source,vector<vector<p> > graph)
+    {
+        priority_queue<node,vector<node>,compare> pq;
+        pq.push(node(source,0));
+        dp[source] = 0;
+        while(!pq.empty())
+        {
+            node top = pq.top();
+            pq.pop();
+
+            for(int k=0;k<graph[top.i].size();k++)
+            {
+                int nv = graph[top.i][k].first;
+                int cost = graph[top.i][k].second;
+                if(dp[nv]>dp[top.i] + cost)
+                {
+                    dp[nv] = dp[top.i] +  cost;
+                    pq.push(node(nv,dp[nv]));
+                }
+            }
+        }
+        return dp;
+    }
+
+}
