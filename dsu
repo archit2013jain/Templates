@@ -4,6 +4,7 @@ namespace dsu
     void init(int n)
     {
         p = new int[n+1];
+        rank = new int[n+1];
         for(int i=0;i<=n;i++)
             p[i] = i,rank[i] = 0;
     }
