@@ -11,6 +11,11 @@ namespace DFS
             start = 0;
             finish = 0;
         }
+
+        bool operator<(vertex &v)
+        {
+            return finish<v.finish;
+        }
     };
 
     int timer;
