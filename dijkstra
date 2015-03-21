@@ -27,7 +27,7 @@ namespace dijkstra
     void init(int vertices)
     {
         dp = new int[vertices+1];
-        for(int i=0;i<vertices;i++)
+        for(int i=0;i<=vertices;i++)
             dp[i] = INT_MAX;
     }
 
