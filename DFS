@@ -1,30 +1,36 @@
 namespace DFS
 {
-    int *visited,*start,*finish,timer;
-    void init(int vertices)
+    struct vertex
     {
-        timer = 0;
-        visited = new int[vertices+1],start = new int[vertices+1],finish = new int[vertices+1];
-        for(int i=0;i<vertices;i++)
-            visited[i] = 0,start[i] = 0,finish[i] = 0;
-    }
+        int visited;
+        int start;
+        int finish;
+        vertex()
+        {
+            visited = 0;
+            start = 0;
+            finish = 0;
+        }
+    };
 
-    void destroy()
-    {
-        delete(visited),delete(start),delete(finish);
-    }
+    int timer;
+    vertex *v;
+
+    void init(int vertices){ timer = 0,v = new vertex[vertices+1]; }
+    void destroy(){ delete(v); }
+
     void dfsUtility(int i,vector<vector<int> > graph)
     {
-        if(visited[i]) return;
-        timer++,start[i] = timer,visited[i] = true;
+        if(v[i].visited) return;
+        timer++,v[i].start = timer,v[i].visited = true;
         for(int k=0;i<graph[k].size();k++)
             dfsUtility(graph[i][k],graph);
-        timer++,finish[i] = timer;
+        timer++,v[i].finish = timer;
     }
     void dfs(vector<vector<int> > graph,int vertices)
     {
         for(int i=0;i<vertices;i++)
-            if(visited[i]==0)
+            if(v[i].visited==0)
                 dfsUtility(i,graph);
     }
 }
