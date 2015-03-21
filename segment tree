@@ -1,0 +1,65 @@
+namespace st
+{
+    struct node
+    {
+        node()
+        {
+
+        }
+    };
+    node *tree;
+    long long *a;
+
+    void init(int MAX,int long long b[],int n)
+    {
+        tree = new node[MAX*4+1];
+        a = new long long[MAX+1];
+
+        for(int i=0;i<n;i++)
+            a[i] = b[i];
+    }
+    void destroy()
+    {
+        delete(tree);
+        delete(a);
+    }
+    void merge(node &root,node &left,node &right)
+    {
+
+    }
+    void basecase(node &root,int start)
+    {
+
+    }
+    void init(int i,int start,int end)
+    {
+        if(start>end)return;
+        if(start==end)
+        {
+            basecase(tree[i],start);
+            return;
+        }
+        int mid = start + (end-start)/2;
+        init(2*i,start,mid);
+        init(2*i+1,mid+1,end);
+        merge(tree[i],tree[2*i],tree[2*i+1]);
+    }
+    node query(int i,int start,int end,int qs,int qe)
+    {
+        if(start>end||qs>end||qe<start)
+        {
+            //return node with a flag set
+        }
+        if(start==end)
+            return tree[i];
+        int mid = start + (end-start)/2;
+        node id1 = query(2*i,start,mid,qs,qe);
+        node id2 = query(2*i+1,mid+1,end,qs,qe);
+
+        //compare id1 and id2 here
+
+        node result;
+        merge(result,id1,id2);
+        return result;
+    }
+}
