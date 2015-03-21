@@ -1,36 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 namespace DFS
 {
-    int *visited,*start,*finish,timer =0;
+    int *visited,*start,*finish,timer;
+    void init(int vertices)
+    {
+        timer = 0;
+        visited = new int[vertices+1],start = new int[vertices+1],finish = new int[vertices+1];
+        for(int i=0;i<vertices;i++)
+            visited[i] = 0,start[i] = 0,finish[i] = 0;
+    }
+
+    void destroy()
+    {
+        delete(visited),delete(start),delete(finish);
+    }
     void dfsUtility(int i,vector<vector<int> > graph)
     {
-        if(visited[i])
-            return;
-        timer++;
-        start[i] = timer;
-        visited[i] = true;
+        if(visited[i]) return;
+        timer++,start[i] = timer,visited[i] = true;
         for(int k=0;i<graph[k].size();k++)
             dfsUtility(graph[i][k],graph);
-        timer++;
-        finish[i] = timer;
+        timer++,finish[i] = timer;
     }
     void dfs(vector<vector<int> > graph,int vertices)
     {
-        visited = new int[vertices+1];
-        start = new int[vertices+1];
-        finish = new int[vertices+1];
-
         for(int i=0;i<vertices;i++)
-        {
-            visited[i] = 0;
-            start[i] = 0;
-            finish[i] = 0;
-        }
-
-        for(int i=0;i<vertices;i++)
-        {
             if(visited[i]==0)
                 dfsUtility(i,graph);
-        }
     }
+}
 
+int main()
+{
+
+    return 0;
 }
