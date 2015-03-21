@@ -1,6 +1,3 @@
-#include<bits/stdc++.h>
-using namespace std;
-
 namespace DFS
 {
     int *visited,*start,*finish,timer;
@@ -30,10 +27,4 @@ namespace DFS
             if(visited[i]==0)
                 dfsUtility(i,graph);
     }
-}
-
-int main()
-{
-
-    return 0;
 }
